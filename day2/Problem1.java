@@ -40,6 +40,14 @@ class Problem1{
 		return true;
 	}
 
+	public static Boolean isReportSafe(ArrayList<Integer> numbers){
+		if(isArrayIncreasing(numbers) || isArrayDecreasing(numbers)){
+			return areDifferingLevelsCorrect(numbers);
+		}
+
+		return false;
+	}
+
 	public static void main(String[] args) throws Exception{
 		List<ArrayList<Integer>> inputs = new ArrayList<ArrayList<Integer>>();
 		int safeReportsCounter = 0;
@@ -53,13 +61,7 @@ class Problem1{
 	
 		for(int i=0; i< inputs.size(); i++){
 			ArrayList<Integer> numbers = inputs.get(i);
-			Boolean checks = isArrayIncreasing(numbers) || isArrayDecreasing(numbers);
-			if(checks){
-				Boolean levelsCheck = areDifferingLevelsCorrect(numbers);
-				if(levelsCheck){
-					safeReportsCounter++;
-				}
-			}
+			if(isReportSafe(numbers)) safeReportsCounter++;
 		}	
 		System.out.println("Safe Reports : " + safeReportsCounter);
 	}
