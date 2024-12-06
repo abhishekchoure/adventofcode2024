@@ -1,0 +1,22 @@
+import java.io.*;
+import java.util.*;
+import java.util.regex.*;
+
+
+class Problem1{
+	public static void main(Stringp[] args){	
+		File inputFile = new File("input.txt");
+		Scanner sc = new Scanner(inputFile);
+		String pattern = "mul\(\d+,\d+\)"
+		
+		while(sc.hasNextLine()){
+			String inputString = sc.nextLine();
+			Pattern mulPattern = Pattern.complie(pattern);
+			Matcher mulMatcher = mulPattern.matcher(inputString);
+
+			while(mulMatcher.find()){
+				System.out.println(mulMatcher.group());
+			}
+		}
+	}
+}
