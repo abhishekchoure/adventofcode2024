@@ -4,8 +4,30 @@ import java.util.regex.*;
 
 
 class Problem2{
+	private int solve(String input, boolean ignoreConditions) {
+		Pattern pattern = Pattern.compile("(mul\\((\\d+),(\\d+)\\))|(do\\(\\))|(don't\\(\\))");
+		Matcher matcher = pattern.matcher(input);
+		AtomicBoolean isEnabled = new AtomicBoolean(true);
+
+		return matcher.results()
+			.mapToInt(result -> {
+			if (result.group(1) != null && (ignoreConditions || isEnabled.get())) {
+				return parseInt(result.group(2)) * parseInt(result.group(3));
+			} else if (!ignoreConditions) {
+			if (result.group(4) != null) {
+				isEnabled.set(true);
+			} else if (result.group(5) != null) {
+				isEnabled.set(false);
+			}
+		}
+		return 0;
+		})
+		.sum();
+	}	
+
 	public static String filterDisabledMuls(String inputString){
 		StringBuilder tempBuilder = new StringBuilder(inputString);
+		System.out.println("Source : " + tempBuilder.toString());
 		if(tempBuilder.indexOf("don't()") == -1) return tempBuilder.toString();
 
 		while(tempBuilder.indexOf("don't()") != -1){
@@ -16,6 +38,8 @@ class Problem2{
 			}else {
 				tempBuilder.delete(startTrimIndex, endTrimIndex + 3 + 1);
 			}
+
+			System.out.println(startTrimIndex + " " + endTrimIndex + " -> " + tempBuilder.toString() + "\n");
 		}
 		return tempBuilder.toString();
 	}
@@ -38,6 +62,7 @@ class Problem2{
 			}
 
 			ans += total;
+			int ans2 = solve(inputString);
 		}
 
 		System.out.println("Answer: " + ans);
